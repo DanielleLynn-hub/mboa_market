@@ -61,7 +61,7 @@ function afficherProduits(liste){
                         <div class = "produit_footer">
                             <div class = "produit_qte" data-stock = "${produit.stock}">
                                 <span data-action = "moins" data-id = "${produit.id}">-</span>
-                                <b> 1 </b>
+                                <b class = "produit_qteCommande"> 1 </b>
                                 <span data-action = "plus" data-id = "${produit.id}">+</span>
                             </div>
                             <button data-action = "ajouter" data-id = "${produit.id}">
@@ -76,15 +76,62 @@ function afficherProduits(liste){
     }
 }
 
+//Retourne un produit à partir de son id
+function rechercheProduit(id, liste){
+    return liste.find(function(val){
+        return val.id == id
+    })
+}
+
+//Initialisation du panier
+function initPanier(){
+    const panier = localStorage.getItem("panier");
+
+    if(panier != null){
+        nb_articles.classList.remove('hide');
+        let nb = JSON.parse(panier).length;
+        nb_articles.textContent = nb;
+    }
+    else{
+        nb_articles.textContent = 0;
+        nb_articles.classList.add('hide');
+    }
+}
+
+//Ajout d'un produit dans le panier
+function ajoutProduitPanier(produit){
+    const panier = localStorage.getItem("panier");
+
+    if(panier != null){
+        let liste = JSON.parse(panier);
+        let data = rechercheProduit(produit.id, liste);
+
+        if(data == null){
+            liste.push(produit);
+            localStorage.setItem("panier", JSON.stringify(liste));  //stringify permet de convertir le tableau en JSON.
+        }
+        else{
+            alert("Ce produit se trouve déjà dans le panier.");
+        }
+    }
+    else{
+        let liste = [produit];
+        localStorage.setItem("panier", JSON.stringify(liste));
+    }
+
+    initPanier();
+}
+
 /*
 =========================
 CHARGEMENT DES PRODUITS
 =========================
 */
 async function initBoutique(){
-    const datas = await chargerProduits();
-    console.log(datas);
-    afficherProduits(datas);
+    initPanier();   //On appele initPanier ici parceque l'on veut que lorsque l'on actualise la page, les produits restent tjr dans le panier.
+    DATAS_PRODUITS = await chargerProduits();
+    console.log(DATAS_PRODUITS);
+    afficherProduits(DATAS_PRODUITS);
 }
 
 
@@ -117,9 +164,17 @@ produits.addEventListener("click", function(e){
 
     //Incrémentation (ajout) d'un produit au panier.
     if(element.matches('[data-action = "ajouter"]')){
-        nb_articles.classList.remove('hide');
-        const value = parseInt(nb_articles.textContent);
-        nb_articles.textContent = value + 1;
+        const id = element.dataset.id;
+        const qte = parseInt(element.parentNode.querySelector(".produit_qteCommande").textContent);
+        let produit = rechercheProduit(id, DATAS_PRODUITS);
+
+        if(produit != null){
+            produit.qte = qte;
+            ajoutProduitPanier(produit);
+        }
+        else{
+            alert("Ce produit se trouve déjà dans le panier.");
+        }
     }
 });
 
