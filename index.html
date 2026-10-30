@@ -58,14 +58,10 @@
         </div>
 
         <!-- Liste des catégories -->
-        <div id = "categories">
+        <div id = "categories"></div>
 
-        </div>
-
-        <!-- Les des produits -->
-        <div id = "produits">
-          
-        </div>
+        <!-- Liste des produits -->
+        <div id="produits"></div>
       </section>
     </main>
 
@@ -75,6 +71,77 @@
       <p>Tél : 655504397 | Email : mboa@gmail.com</p>
       <p>Copyright &copy; 2026 Mboa Market</p>
     </footer>
+
+    <!--FENETRE MODAL PANIER-->
+    <div id="modal_commande" class="hide">
+      <div class="modal_container">
+        <span id="modal_fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+
+        <form id="modal_form" method="post" action="#">
+          <fieldset class="commande_info">
+            <legend>Finaliser ma commande</legend>
+
+            <!--Nom-->
+            <div class="champ"> 
+              <label for="nom">Nom complet</label>
+              <input type="text" id="nom" name="nom" placeholder="Entrez votre nom"/>
+            </div>
+
+            <!--Téléphone-->
+            <div class="champ"> 
+              <label for="telephone">Téléphone Mobile</label>
+              <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre numéro de téléphone"/>
+            </div>
+
+            <!--Ville-->
+            <div class="champ"> 
+              <label for="ville">Ville de livraison</label>
+              <select name="ville" id="ville">
+                <option value="DOUALA">DOUALA</option>
+                <option value="YAOUNDE">YAOUNDE</option>
+                <option value="BERTOUA">BERTOUA</option>
+              </select>
+            </div>
+
+            <!--Mode de paiement-->
+            <div class="champ"> 
+              <label for="paiement">Moyen de paiement</label>
+              <select name="paiement" id="paiement">
+                <option value="Orange Money">Orange Money</option>
+                <option value="MTN Mobile Money">MTN Mobile Money</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset class="commande_produit">
+            <legend>Récapitulatif de la commande</legend>
+
+            <!--Tableau des produits-->
+            <table border="0" cellpadding = "4" cellspacing = "8">
+              <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>PU (FCFA)</th>
+                  <th>QTE</th>
+                  <th>MONTANT (FCFA)</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody id="liste_produits"></tbody>
+            </table>
+
+            <div id="total_commande"></div>
+            <div class="submit">
+              <input type="submit" id="btn_valider" value="Valider la commande">
+            </div>
+          </fieldset>
+        </form>
+
+        <div id="confirmation" class="hide"></div>
+      </div>
+    </div>
 
     <!-- Gestion du Javascript -->
     <script type="text/javascript" src="js/carrousel.js"></script>
