@@ -281,6 +281,11 @@ DESIGN BOUTIQUE
 =========================
 */
 #boutique{
+    display: grid;
+    grid-template-columns: repeat(1 column, minmax(220px, 1fr));
+    background-color: red;
+}
+#boutique{
     padding: 70px 8%;
     background-color: var(--white-color);
     scroll-margin-top: 60px;
@@ -355,6 +360,7 @@ DESIGN BOUTIQUE
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 25px;
+    background-color: rgba(241, 30, 30, 0.05);
 }
 .produit{
   background-color: var(--white-color);
